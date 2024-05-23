@@ -64,7 +64,7 @@ public class AuthController {
      *
      * @return ResponseEntity containing the user's details
      */
-    @GetMapping("/me")
+    @GetMapping("/profile")
     public ResponseEntity<?> getCurrentUserDetails() {
         try {
             UserDTO userDTO = authenticationService.getCurrentUserDetails();
