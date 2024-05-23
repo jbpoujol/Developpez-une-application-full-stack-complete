@@ -1,3 +1,13 @@
-<div class="mx-2">
-  <router-outlet></router-outlet>
-</div>
+<ng-container [ngSwitch]="layout">
+  <ng-template #content>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </ng-template>
+  <app-main-layout *ngSwitchCase="Layouts.Main">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </app-main-layout>
+  <app-minimal-layout *ngSwitchCase="Layouts.Minimal">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </app-minimal-layout>
+</ng-container>

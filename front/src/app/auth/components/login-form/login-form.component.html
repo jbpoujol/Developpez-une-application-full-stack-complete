@@ -1,58 +1,64 @@
-<div
-  class="flex justify-content-center align-items-center min-h-screen relative"
->
-  <div class="text-center p-4">
-    <div class="absolute top-0 left-0 mt-5 ml-5">
-      <button
-        pButton
-        icon="pi pi-arrow-left text-2xl"
-        class="p-button-text p-button-plain"
-        routerLink="/"
-      ></button>
+<div class="min-h-screen">
+  <div>
+    <img src="assets/logo_p6.png" alt="logo" height="60" class="mr-2" />
+  </div>
+
+  <div
+    class="flex justify-content-center align-items-center relative login-form"
+  >
+    <div class="text-center p-4">
+      <div class="absolute top-0 left-0 mt-5 ml-5">
+        <button
+          pButton
+          icon="pi pi-arrow-left text-2xl"
+          class="p-button-text p-button-plain"
+          routerLink="/"
+        ></button>
+      </div>
+      <img
+        src="assets/logo_p6.png"
+        alt="logo"
+        class="mb-3 mx-auto max-w-full sm:block md:hidden"
+      />
+      <h2 class="mb-4">Se connecter</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-fluid">
+        <div class="p-field mb-3">
+          <label for="email">E-mail ou nom d'utilisateur</label>
+          <input id="email" type="text" pInputText formControlName="email" />
+          <div
+            *ngIf="
+              loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+            "
+            class="p-error"
+          >
+            Un Email est requis et doit être valide.
+          </div>
+        </div>
+        <div class="p-field mb-3">
+          <label for="password">Mot de passe</label>
+          <input
+            id="password"
+            type="password"
+            pInputText
+            formControlName="password"
+          />
+          <div
+            *ngIf="
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched
+            "
+            class="p-error"
+          >
+            Le Mot de passe est requis.
+          </div>
+        </div>
+        <button
+          pButton
+          label="Se connecter"
+          class="p-button-primary w-full"
+          [disabled]="loginForm.invalid"
+        ></button>
+      </form>
     </div>
-    <img
-      src="assets/logo_p6.png"
-      alt="logo"
-      class="mb-3 mx-auto max-w-full sm:block md:hidden"
-    />
-    <h2 class="mb-4">Se connecter</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-fluid">
-      <div class="p-field mb-3">
-        <label for="email">E-mail ou nom d'utilisateur</label>
-        <input id="email" type="text" pInputText formControlName="email" />
-        <div
-          *ngIf="
-            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
-          "
-          class="p-error"
-        >
-          Email est requis et doit être valide.
-        </div>
-      </div>
-      <div class="p-field mb-3">
-        <label for="password">Mot de passe</label>
-        <input
-          id="password"
-          type="password"
-          pInputText
-          formControlName="password"
-        />
-        <div
-          *ngIf="
-            loginForm.get('password')?.invalid &&
-            loginForm.get('password')?.touched
-          "
-          class="p-error"
-        >
-          Mot de passe est requis.
-        </div>
-      </div>
-      <button
-        pButton
-        label="Se connecter"
-        class="p-button-primary w-full"
-        [disabled]="loginForm.invalid"
-      ></button>
-    </form>
   </div>
 </div>
