@@ -21,9 +21,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
+
+    private static final Logger logger = Logger.getLogger(AuthenticationServiceImpl.class.getName());
 
     private final DBUserRepository dbUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -39,6 +42,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Map<String, String> registerUserAndGenerateToken(RegistrationRequest registrationRequest) {
+        logger.info("Registering user: " + registrationRequest.getEmail());
+
         if (dbUserRepository.existsByEmail(registrationRequest.getEmail())) {
             throw new CustomAlreadyExistsException("Email already in use.");
         }
@@ -47,6 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         newUser.setName(registrationRequest.getName());
         newUser.setEmail(registrationRequest.getEmail());
         newUser.setPassword(bCryptPasswordEncoder.encode(registrationRequest.getPassword()));
+
         dbUserRepository.save(newUser);
 
         // Generate token for the new user
@@ -64,6 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String jwt = jwtService.generateToken(authentication);
             return Collections.singletonMap("token", jwt);
         } catch (AuthenticationException e) {
+            logger.severe("Authentication failed for user: " + loginRequest.getEmail());
             throw new CustomAuthenticationException("Invalid username or password");
         }
     }
@@ -101,17 +108,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new CustomNotFoundException("User not found"));
     }
 
-
-    /**
-     * Fetches the current Authentication object from the SecurityContext.
-     * <p>
-     * This method is separated from {@link #getAuthenticatedUserEmail()} to facilitate unit testing.
-     *
-     * @return the current Authentication object, or {@code null} if no authentication information is available.
-     */
     protected Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
-
-
 }

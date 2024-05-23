@@ -25,12 +25,12 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(Authentication authentication) {
+        logger.info("Generating token for authentication: " + authentication.getName());
         return generateTokenWithClaims(authentication.getName());
     }
 
     @Override
     public String generateTokenForUser(DBUser user) {
-        logger.info("Generating token for user: " + user.getEmail());
         return generateTokenWithClaims(user.getEmail());
     }
 
@@ -44,8 +44,12 @@ public class JwtServiceImpl implements JwtService {
                 .build();
 
         JwtEncoderParameters params = JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS256).build(), claims);
-        String token = this.jwtEncoder.encode(params).getTokenValue();
-        logger.info("Generated token: " + token);
-        return token;
+
+        try {
+            return this.jwtEncoder.encode(params).getTokenValue();
+        } catch (Exception e) {
+            logger.severe("Error during token generation: " + e.getMessage());
+            throw new RuntimeException("Token generation failed", e);
+        }
     }
 }
