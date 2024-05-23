@@ -1,38 +1,5 @@
-<p-menubar>
+<p-menubar [model]="items">
   <ng-template pTemplate="start">
     <img src="assets/logo_p6.png" alt="logo" height="60" class="mr-2" />
-  </ng-template>
-  <ng-template pTemplate="end">
-    <button
-      pButton
-      type="button"
-      label="Articles"
-      class="p-button-text"
-      routerLink="/articles"
-      routerLinkActive="p-button-primary"
-      [ngClass]="{ 'p-button-plain': !isActive('/articles') }"
-      [routerLinkActiveOptions]="{ exact: true }"
-    ></button>
-    <button
-      pButton
-      type="button"
-      label="Thèmes"
-      class="p-button-text"
-      routerLink="/themes"
-      routerLinkActive="p-button-primary"
-      [ngClass]="{ 'p-button-plain': !isActive('/themes') }"
-      [routerLinkActiveOptions]="{ exact: true }"
-    ></button>
-    <button
-      pButton
-      pRipple
-      type="button"
-      icon="pi pi-user"
-      class="p-button-rounded p-button-text"
-      routerLink="/profile"
-      routerLinkActive="p-button-primary"
-      [ngClass]="{ 'p-button-plain': !isActive('/profile') }"
-      [routerLinkActiveOptions]="{ exact: true }"
-    ></button>
   </ng-template>
 </p-menubar>
