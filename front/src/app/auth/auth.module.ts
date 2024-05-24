@@ -12,9 +12,14 @@ import { RouterModule } from '@angular/router';
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
 import { DividerModule } from 'primeng/divider';
 import { CardModule } from 'primeng/card';
+import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
 
 @NgModule({
-  declarations: [LoginFormComponent, ProfileFormComponent],
+  declarations: [
+    LoginFormComponent,
+    ProfileFormComponent,
+    RegistrationFormComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -26,6 +31,10 @@ import { CardModule } from 'primeng/card';
     DividerModule,
     CardModule,
   ],
-  exports: [LoginFormComponent, ProfileFormComponent],
+  exports: [
+    LoginFormComponent,
+    ProfileFormComponent,
+    RegistrationFormComponent,
+  ],
 })
 export class AuthModule {}

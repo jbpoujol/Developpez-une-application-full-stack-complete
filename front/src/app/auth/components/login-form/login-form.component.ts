@@ -36,7 +36,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         })
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (response) => {
+          next: () => {
             this.router.navigate(['profile']);
           },
           error: (error) => {
