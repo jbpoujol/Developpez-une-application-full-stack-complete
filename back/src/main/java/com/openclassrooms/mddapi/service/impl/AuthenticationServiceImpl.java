@@ -43,8 +43,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Map<String, String> registerUserAndGenerateToken(RegistrationRequest registrationRequest) {
-        logger.info("Registering user: " + registrationRequest.getEmail());
-
         if (dbUserRepository.existsByEmail(registrationRequest.getEmail())) {
             throw new CustomAlreadyExistsException("Email already in use.");
         }
@@ -117,23 +115,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Authentication authentication = getAuthentication();
         if (authentication != null) {
             Object principal = authentication.getPrincipal();
-            logger.info("Principal class: " + principal.getClass().getName());
-            logger.info("Principal: " + principal.toString());
-
             if (principal instanceof UserDetails) {
                 String email = ((UserDetails) principal).getUsername();
-                logger.info("Authenticated user email: " + email);
                 return dbUserRepository.findByEmail(email).orElse(null);
             } else if (principal instanceof String) {
                 String email = principal.toString();
-                logger.info("Authenticated user email: " + email);
                 return dbUserRepository.findByEmail(email).orElse(null);
             } else if (principal instanceof org.springframework.security.oauth2.jwt.Jwt) {
                 org.springframework.security.oauth2.jwt.Jwt jwt = (org.springframework.security.oauth2.jwt.Jwt) principal;
-                Map<String, Object> claims = jwt.getClaims();
-                logger.info("JWT Claims: " + claims.toString());
                 String email = jwt.getClaim("email");
-                logger.info("Authenticated user email from JWT: " + email);
                 return dbUserRepository.findByEmail(email).orElse(null);
             }
         } else {
@@ -141,9 +131,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         return null;
     }
-
-
-
 
     @Override
     public UserDTO updateUserProfile(UpdateProfileRequestDTO updateRequestDTO) throws CustomNotFoundException {

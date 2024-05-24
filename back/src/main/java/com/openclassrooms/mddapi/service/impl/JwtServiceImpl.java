@@ -12,11 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.logging.Logger;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-    private static final Logger logger = Logger.getLogger(JwtServiceImpl.class.getName());
     private final JwtEncoder jwtEncoder;
 
     public JwtServiceImpl(JwtEncoder jwtEncoder) {
@@ -25,7 +23,6 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(Authentication authentication) {
-        logger.info("Generating token for authentication: " + authentication.getName());
         String email = authentication.getName();  // Assuming the authentication name is the email
         return generateTokenWithClaims(email);
     }
@@ -50,7 +47,6 @@ public class JwtServiceImpl implements JwtService {
         try {
             return this.jwtEncoder.encode(params).getTokenValue();
         } catch (Exception e) {
-            logger.severe("Error during token generation: " + e.getMessage());
             throw new RuntimeException("Token generation failed", e);
         }
     }
