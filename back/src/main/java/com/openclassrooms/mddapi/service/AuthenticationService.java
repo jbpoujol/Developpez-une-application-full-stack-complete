@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
 
+import com.openclassrooms.mddapi.dto.UpdateProfileRequestDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.excepton.CustomAlreadyExistsException;
 import com.openclassrooms.mddapi.excepton.CustomAuthenticationException;
@@ -71,4 +72,6 @@ public interface AuthenticationService {
      * @return The username of the authenticated user if available, otherwise {@code null}.
      */
     String getAuthenticatedUsername();
+
+    public UserDTO updateUserProfile(UpdateProfileRequestDTO updateRequestDTO);
 }

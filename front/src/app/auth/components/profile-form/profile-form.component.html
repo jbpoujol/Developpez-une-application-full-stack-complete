@@ -1,0 +1,60 @@
+<div class="min-h-screen flex flex-column xl:w-8 xl:mx-auto">
+  <div class="flex justify-content-center align-items-center flex-grow-1">
+    <div class="text-center p-4 w-full">
+      <h2 class="mb-4">Profil utilisateur</h2>
+      <form
+        [formGroup]="profileForm"
+        (ngSubmit)="onSave()"
+        class="p-fluid md:w-6 mx-auto"
+      >
+        <div class="p-field mb-3">
+          <input id="name" type="text" pInputText formControlName="name" />
+        </div>
+        <div class="p-field mb-3">
+          <input id="email" type="text" pInputText formControlName="email" />
+        </div>
+        <button
+          pButton
+          label="Sauvegarder"
+          class="p-button-primary w-full mb-3"
+        ></button>
+        <button
+          pButton
+          label="Se déconnecter"
+          class="p-button-text p-button-danger w-full"
+          (click)="onLogout()"
+        ></button>
+      </form>
+      <p-divider></p-divider>
+      <h3>Abonnements</h3>
+      <div class="flex flex-column md:flex-row gap-3">
+        <p-card
+          styleClass="surface-100"
+          header="Titre du thème"
+          subheader="Description: Lorem ipsum is simply dummy text of the printing and typesetting industry..."
+        >
+          <ng-template pTemplate="footer">
+            <button
+              pButton
+              label="Se désabonner"
+              class="p-button-primary"
+            ></button>
+          </ng-template>
+        </p-card>
+        <p-card
+          styleClass="surface-100"
+          header="Titre du thème"
+          subheader="Description: Lorem ipsum is simply dummy text of the printing and typesetting industry..."
+        >
+          <ng-template pTemplate="footer">
+            <button
+              pButton
+              label="Se désabonner"
+              class="p-button-primary"
+            ></button>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>

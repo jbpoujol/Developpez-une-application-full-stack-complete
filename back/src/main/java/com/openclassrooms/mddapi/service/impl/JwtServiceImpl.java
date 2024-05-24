@@ -26,7 +26,8 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateToken(Authentication authentication) {
         logger.info("Generating token for authentication: " + authentication.getName());
-        return generateTokenWithClaims(authentication.getName());
+        String email = authentication.getName();  // Assuming the authentication name is the email
+        return generateTokenWithClaims(email);
     }
 
     @Override
@@ -34,13 +35,14 @@ public class JwtServiceImpl implements JwtService {
         return generateTokenWithClaims(user.getEmail());
     }
 
-    private String generateTokenWithClaims(String subject) {
+    private String generateTokenWithClaims(String email) {
         Instant now = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.DAYS))
-                .subject(subject)
+                .subject(email)
+                .claim("email", email)  // Add the email claim
                 .build();
 
         JwtEncoderParameters params = JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS256).build(), claims);

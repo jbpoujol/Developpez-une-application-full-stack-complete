@@ -30,17 +30,19 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.authService
-        .login(this.loginForm.value.email, this.loginForm.value.password)
+        .login({
+          email: this.loginForm.value.email,
+          password: this.loginForm.value.password,
+        })
         .pipe(takeUntil(this.destroy$))
-        .subscribe(
-          (response) => {
-            this.authService.setToken(response.token);
+        .subscribe({
+          next: (response) => {
             this.router.navigate(['profile']);
           },
-          (error) => {
+          error: (error) => {
             console.error('Login failed', error);
-          }
-        );
+          },
+        });
     }
   }
 

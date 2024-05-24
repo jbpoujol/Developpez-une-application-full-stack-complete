@@ -9,9 +9,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { RouterModule } from '@angular/router';
+import { ProfileFormComponent } from './components/profile-form/profile-form.component';
+import { DividerModule } from 'primeng/divider';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
-  declarations: [LoginFormComponent],
+  declarations: [LoginFormComponent, ProfileFormComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -20,7 +23,9 @@ import { RouterModule } from '@angular/router';
     MessagesModule,
     MessageModule,
     RouterModule,
+    DividerModule,
+    CardModule,
   ],
-  exports: [LoginFormComponent],
+  exports: [LoginFormComponent, ProfileFormComponent],
 })
 export class AuthModule {}

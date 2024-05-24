@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.controller;
 
+import com.openclassrooms.mddapi.dto.UpdateProfileRequestDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.excepton.CustomAlreadyExistsException;
 import com.openclassrooms.mddapi.excepton.CustomAuthenticationException;
@@ -69,6 +70,22 @@ public class AuthController {
         try {
             UserDTO userDTO = authenticationService.getCurrentUserDetails();
             return ResponseEntity.ok(userDTO);
+        } catch (CustomNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    /**
+     * Endpoint to update the current authenticated user's profile information.
+     *
+     * @param updateRequestDTO the update request containing new user details
+     * @return ResponseEntity containing the updated user's details
+     */
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateUserProfile(@RequestBody UpdateProfileRequestDTO updateRequestDTO) {
+        try {
+            UserDTO updatedUser = authenticationService.updateUserProfile(updateRequestDTO);
+            return ResponseEntity.ok(updatedUser);
         } catch (CustomNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
         }

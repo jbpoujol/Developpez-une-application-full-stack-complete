@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.service.impl;
 
+import com.openclassrooms.mddapi.dto.UpdateProfileRequestDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.excepton.CustomAlreadyExistsException;
 import com.openclassrooms.mddapi.excepton.CustomAuthenticationException;
@@ -110,5 +111,51 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     protected Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    private DBUser getCurrentAuthenticatedUser() {
+        Authentication authentication = getAuthentication();
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            logger.info("Principal class: " + principal.getClass().getName());
+            logger.info("Principal: " + principal.toString());
+
+            if (principal instanceof UserDetails) {
+                String email = ((UserDetails) principal).getUsername();
+                logger.info("Authenticated user email: " + email);
+                return dbUserRepository.findByEmail(email).orElse(null);
+            } else if (principal instanceof String) {
+                String email = principal.toString();
+                logger.info("Authenticated user email: " + email);
+                return dbUserRepository.findByEmail(email).orElse(null);
+            } else if (principal instanceof org.springframework.security.oauth2.jwt.Jwt) {
+                org.springframework.security.oauth2.jwt.Jwt jwt = (org.springframework.security.oauth2.jwt.Jwt) principal;
+                Map<String, Object> claims = jwt.getClaims();
+                logger.info("JWT Claims: " + claims.toString());
+                String email = jwt.getClaim("email");
+                logger.info("Authenticated user email from JWT: " + email);
+                return dbUserRepository.findByEmail(email).orElse(null);
+            }
+        } else {
+            logger.warning("Authentication object is null or principal is not UserDetails");
+        }
+        return null;
+    }
+
+
+
+
+    @Override
+    public UserDTO updateUserProfile(UpdateProfileRequestDTO updateRequestDTO) throws CustomNotFoundException {
+        DBUser currentUser = getCurrentAuthenticatedUser();
+        if (currentUser == null) {
+            throw new CustomNotFoundException("User not found.");
+        }
+
+        currentUser.setName(updateRequestDTO.getName());
+        currentUser.setEmail(updateRequestDTO.getEmail());
+        dbUserRepository.save(currentUser);
+
+        return new UserDTO(currentUser.getId(), currentUser.getName(), currentUser.getEmail(), currentUser.getCreatedAt(), currentUser.getUpdatedAt());
     }
 }
