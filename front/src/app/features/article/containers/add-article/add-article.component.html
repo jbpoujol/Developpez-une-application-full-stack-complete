@@ -1,0 +1,62 @@
+<div class="flex justify-content-center align-items-center relative">
+  <div class="text-center p-4">
+    <div class="absolute top-0 left-0 mt-5 ml-5">
+      <button
+        pButton
+        icon="pi pi-arrow-left text-2xl"
+        class="p-button-text p-button-plain"
+        routerLink="../"
+      ></button>
+    </div>
+
+    <div class="grid justify-content-center mt-4">
+      <div class="md-6">
+        <h2 class="text-center">Créer un nouvel article</h2>
+        <form
+          [formGroup]="addArticleForm"
+          (ngSubmit)="onSubmit()"
+          class="p-fluid"
+        >
+          <div class="p-field mb-3">
+            <p-dropdown
+              id="theme"
+              formControlName="themeId"
+              [options]="themes"
+              optionValue="id"
+              optionLabel="name"
+              placeholder="Sélectionner un thème"
+            ></p-dropdown>
+          </div>
+
+          <div class="p-field mb-3">
+            <input
+              id="title"
+              type="text"
+              pInputText
+              formControlName="title"
+              placeholder="Titre de l'article"
+            />
+          </div>
+
+          <div class="p-field mb-3">
+            <textarea
+              id="content"
+              rows="5"
+              pInputTextarea
+              formControlName="content"
+              placeholder="Contenu de l'article"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            pButton
+            label="Créer"
+            class="p-button-primary mt-2 w-6"
+            [disabled]="addArticleForm.invalid"
+          ></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

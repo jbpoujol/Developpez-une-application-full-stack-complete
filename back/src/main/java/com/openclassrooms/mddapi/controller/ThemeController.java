@@ -2,13 +2,10 @@ package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.ThemeDTO;
 import com.openclassrooms.mddapi.service.ThemeService;
-import com.openclassrooms.mddapi.excepton.CustomNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/themes")
@@ -27,21 +24,13 @@ public class ThemeController {
 
     @PostMapping("/{themeId}/subscribe")
     public ResponseEntity<?> subscribeToTheme(@PathVariable Long themeId) {
-        try {
-            themeService.subscribeToTheme(themeId);
-            return ResponseEntity.ok().build();
-        } catch (CustomNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
-        }
+        themeService.subscribeToTheme(themeId);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{themeId}/unsubscribe")
     public ResponseEntity<?> unsubscribeFromTheme(@PathVariable Long themeId) {
-        try {
             themeService.unsubscribeFromTheme(themeId);
             return ResponseEntity.ok().build();
-        } catch (CustomNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
-        }
     }
 }

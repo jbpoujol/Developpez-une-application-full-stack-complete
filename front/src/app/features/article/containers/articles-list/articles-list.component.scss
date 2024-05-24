@@ -1,0 +1,23 @@
+.p-grid {
+  margin-top: 1rem;
+}
+
+.p-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.p-card-body h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.p-card-body p {
+  margin-top: 0.5rem;
+}
+
+.p-card-body span {
+  font-size: 0.875rem;
+  color: gray;
+}

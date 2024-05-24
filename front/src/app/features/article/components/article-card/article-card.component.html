@@ -1,0 +1,12 @@
+<p-card styleClass="surface-100 shadow-none border-round">
+  <ng-template pTemplate="title">{{ article.title }}</ng-template>
+  <ng-template pTemplate="subtitle">
+    <small class="flex justify-content-between">
+      <span>{{ article.createdAt | date }}</span>
+      <span>{{ article.authorName }}</span>
+    </small>
+  </ng-template>
+  <ng-template pTemplate="content"
+    ><p>{{ article.content }}</p></ng-template
+  >
+</p-card>

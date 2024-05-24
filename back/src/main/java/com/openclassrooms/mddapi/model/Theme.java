@@ -30,4 +30,13 @@ public class Theme {
         this.name = name;
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Theme{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
