@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.excepton.CustomNotFoundException;
 import com.openclassrooms.mddapi.model.DBUser;
 import com.openclassrooms.mddapi.repository.DBUserRepository;
 import com.openclassrooms.mddapi.service.DBUserService;
+import com.openclassrooms.mddapi.util.DtoConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -31,12 +32,7 @@ public class DBUserServiceImpl implements DBUserService {
     @Override
     public UserDTO findUserDTOById(Long id) {
         return dbUserRepository.findById(id)
-                .map(user -> new UserDTO(
-                        user.getId(),
-                        user.getName(),
-                        user.getEmail(),
-                        user.getCreatedAt(),
-                        user.getUpdatedAt()))
+                .map(DtoConverter::convertToUserDTO)
                 .orElseThrow(() -> new CustomNotFoundException("User not found"));
     }
 }

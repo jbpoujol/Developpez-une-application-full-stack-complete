@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { LayoutModule } from './layout/layout.module';
-import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],

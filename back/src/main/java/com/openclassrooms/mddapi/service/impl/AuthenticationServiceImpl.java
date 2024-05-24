@@ -11,6 +11,7 @@ import com.openclassrooms.mddapi.model.RegistrationRequest;
 import com.openclassrooms.mddapi.repository.DBUserRepository;
 import com.openclassrooms.mddapi.service.AuthenticationService;
 import com.openclassrooms.mddapi.service.JwtService;
+import com.openclassrooms.mddapi.util.DtoConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -97,21 +98,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public UserDTO getCurrentUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return dbUserRepository.findByEmail(email)
-                .map(user -> new UserDTO(
-                        user.getId(),
-                        user.getName(),
-                        user.getEmail(),
-                        user.getCreatedAt(),
-                        user.getUpdatedAt()))
+        DBUser user = dbUserRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomNotFoundException("User not found"));
+        return DtoConverter.convertToUserDTO(user);
     }
 
     protected Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    private DBUser getCurrentAuthenticatedUser() {
+    @Override
+    public DBUser getCurrentAuthenticatedUser() {
         Authentication authentication = getAuthentication();
         if (authentication != null) {
             Object principal = authentication.getPrincipal();
@@ -143,6 +140,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         currentUser.setEmail(updateRequestDTO.getEmail());
         dbUserRepository.save(currentUser);
 
-        return new UserDTO(currentUser.getId(), currentUser.getName(), currentUser.getEmail(), currentUser.getCreatedAt(), currentUser.getUpdatedAt());
+        return DtoConverter.convertToUserDTO(currentUser);
     }
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Data Transfer Object representing a user.
@@ -39,6 +40,8 @@ public class UserDTO {
      */
     private LocalDateTime updated_at;
 
+    private List<ThemeDTO> subscribedThemes;
+
     /**
      * Constructs a new UserDTO with specified details.
      *
@@ -48,11 +51,12 @@ public class UserDTO {
      * @param created_at The date of account creation.
      * @param updated_at The date of the last update to the account.
      */
-    public UserDTO(Long id, String name, String email, LocalDateTime created_at, LocalDateTime updated_at) {
+    public UserDTO(Long id, String name, String email, LocalDateTime created_at, LocalDateTime updated_at, List<ThemeDTO> subscribedThemes) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.subscribedThemes = subscribedThemes;
     }
 }

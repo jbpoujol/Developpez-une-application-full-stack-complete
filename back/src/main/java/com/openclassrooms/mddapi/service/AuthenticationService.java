@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.dto.UpdateProfileRequestDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.excepton.CustomAlreadyExistsException;
 import com.openclassrooms.mddapi.excepton.CustomAuthenticationException;
+import com.openclassrooms.mddapi.model.DBUser;
 import com.openclassrooms.mddapi.model.LoginRequest;
 import com.openclassrooms.mddapi.model.RegistrationRequest;
 
@@ -74,4 +75,6 @@ public interface AuthenticationService {
     String getAuthenticatedUsername();
 
     public UserDTO updateUserProfile(UpdateProfileRequestDTO updateRequestDTO);
+
+    DBUser getCurrentAuthenticatedUser();
 }

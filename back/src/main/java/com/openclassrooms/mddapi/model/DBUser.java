@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -28,6 +30,13 @@ public class DBUser {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_theme",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "theme_id"))
+    private List<Theme> subscribedThemes = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
