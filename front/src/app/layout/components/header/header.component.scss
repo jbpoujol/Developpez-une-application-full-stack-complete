@@ -22,3 +22,8 @@
     transform: translateX(-5%) translateY(-115%);
   }
 }
+
+:host ::ng-deep .p-menuitem-link-active .p-menuitem-text,
+:host ::ng-deep .p-menuitem-link-active .p-menuitem-icon {
+  color: var(--primary-color) !important;
+}
