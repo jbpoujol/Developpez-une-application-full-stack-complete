@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ThemesListComponent } from './containers/themes-list/themes-list.component';
-import { ThemeCardComponent } from './components/theme-card/theme-card.component';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
+import { ThemesListComponent, UserThemesComponent } from './containers';
+import { ThemeCardModule } from '@shared';
 
 @NgModule({
-  declarations: [ThemesListComponent, ThemeCardComponent],
-  imports: [CommonModule, ButtonModule, CardModule],
-  exports: [ThemesListComponent],
+  declarations: [ThemesListComponent, UserThemesComponent],
+  imports: [CommonModule, ThemeCardModule],
+  exports: [ThemesListComponent, UserThemesComponent],
 })
 export class ThemesFeatureModule {}

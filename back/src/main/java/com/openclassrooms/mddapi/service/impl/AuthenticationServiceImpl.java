@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.service.impl;
 
+import com.openclassrooms.mddapi.dto.ThemeDTO;
 import com.openclassrooms.mddapi.dto.UpdateProfileRequestDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.excepton.CustomAlreadyExistsException;
@@ -22,8 +23,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -142,4 +145,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return DtoConverter.convertToUserDTO(currentUser);
     }
+
+    @Override
+    public List<ThemeDTO> getCurrentUserThemes() {
+        DBUser currentUser = getCurrentAuthenticatedUser();
+        if (currentUser == null) {
+            throw new CustomNotFoundException("User not found.");
+        }
+        return currentUser.getSubscribedThemes().stream()
+                .map(DtoConverter::convertToThemeDTO)
+                .collect(Collectors.toList());
+    }
+
+
 }

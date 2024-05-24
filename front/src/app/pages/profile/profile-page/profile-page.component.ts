@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-profile-page',
-  template: `<app-profile-form></app-profile-form> `,
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent {}

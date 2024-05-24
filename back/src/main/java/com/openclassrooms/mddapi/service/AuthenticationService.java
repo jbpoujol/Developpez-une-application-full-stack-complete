@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
 
+import com.openclassrooms.mddapi.dto.ThemeDTO;
 import com.openclassrooms.mddapi.dto.UpdateProfileRequestDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.excepton.CustomAlreadyExistsException;
@@ -9,6 +10,7 @@ import com.openclassrooms.mddapi.model.DBUser;
 import com.openclassrooms.mddapi.model.LoginRequest;
 import com.openclassrooms.mddapi.model.RegistrationRequest;
 
+import java.util.List;
 import java.util.Map;
 
 public interface AuthenticationService {
@@ -77,4 +79,6 @@ public interface AuthenticationService {
     public UserDTO updateUserProfile(UpdateProfileRequestDTO updateRequestDTO);
 
     DBUser getCurrentAuthenticatedUser();
+
+    List<ThemeDTO> getCurrentUserThemes();
 }

@@ -6,7 +6,7 @@
   <ng-template pTemplate="footer">
     <button
       pButton
-      label="S'abonner"
+      [label]="page === 'profile' ? 'Se désabonner' : 'S\'abonner'"
       class="p-button-primary w-full"
       (click)="onSubscribe()"
     ></button>

@@ -3,24 +3,24 @@ import { ThemeService } from '../../services/themes.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-themes-list',
-  templateUrl: './themes-list.component.html',
-  styleUrls: ['./themes-list.component.scss'],
+  selector: 'app-user-themes',
+  templateUrl: './user-themes.component.html',
+  styleUrls: ['./user-themes.component.scss'],
 })
-export class ThemesListComponent implements OnInit, OnDestroy {
-  themes$ = this.themeService.themes$;
+export class UserThemesComponent implements OnInit, OnDestroy {
+  userThemes$ = this.themeService.userThemes$;
 
   destroy$ = new Subject<void>();
 
   constructor(private themeService: ThemeService) {}
 
   ngOnInit(): void {
-    this.themeService.getThemes();
+    this.themeService.getUserThemes();
   }
 
-  onSubscribe(themeId: number): void {
+  onUnsubscribe(themeId: number): void {
     this.themeService
-      .subscribeToTheme(themeId)
+      .unsubscribeFromTheme(themeId)
       .pipe(takeUntil(this.destroy$))
       .subscribe();
   }
