@@ -1,0 +1,15 @@
+.p-card {
+  max-width: 300px;
+  margin: auto;
+}
+.p-card-title {
+  font-size: 1.5em;
+}
+.p-card-subtitle {
+  font-size: 1.2em;
+  color: var(--primary-color);
+}
+.p-card-footer {
+  display: flex;
+  justify-content: space-between;
+}

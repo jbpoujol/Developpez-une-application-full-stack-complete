@@ -1,0 +1,14 @@
+<p-card styleClass="surface-100 shadow-none">
+  <ng-template pTemplate="header">
+    <h2 class="pt-2 pl-3">{{ theme.name }}</h2>
+  </ng-template>
+  <p>{{ theme.description }}</p>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      label="S'abonner"
+      class="p-button-primary w-full"
+      (click)="onSubscribe()"
+    ></button>
+  </ng-template>
+</p-card>
