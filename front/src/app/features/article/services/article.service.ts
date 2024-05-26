@@ -14,9 +14,11 @@ export class ArticleService {
 
   private articlesSubject = new BehaviorSubject<Article[]>([]);
   private subscribedArticlesSubject = new BehaviorSubject<Article[]>([]);
+  private articleSubject = new BehaviorSubject<Article | null>(null);
 
   articles$ = this.articlesSubject.asObservable();
   subscribedArticles$ = this.subscribedArticlesSubject.asObservable();
+  article$ = this.articleSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -44,13 +46,16 @@ export class ArticleService {
       .pipe(tap(() => this.getSubscribedArticles()));
   }
 
-  getArticle(articleId: number): Observable<Article> {
-    return this.http.get<Article>(`${this.articlesUrl}/${articleId}`);
+  getArticle(articleId: number): void {
+    this.http
+      .get<Article>(`${this.articlesUrl}/${articleId}`)
+      .pipe(tap((article) => this.articleSubject.next(article)))
+      .subscribe();
   }
 
   addComment(articleId: number, content: string): Observable<Comment> {
     return this.http
       .post<Comment>(`${this.articlesUrl}/${articleId}/comments`, { content })
-      .pipe(tap(() => this.getSubscribedArticles()));
+      .pipe(tap(() => this.getArticle(articleId)));
   }
 }

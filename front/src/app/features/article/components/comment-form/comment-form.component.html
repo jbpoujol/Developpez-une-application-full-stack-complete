@@ -1,0 +1,23 @@
+<form
+  [formGroup]="commentForm"
+  (ngSubmit)="onSubmit()"
+  class="flex justify-content-center align-items-center mt-5"
+>
+  <div class="col-12 lg:col-10 xl:col-8">
+    <textarea
+      pInputTextarea
+      [rows]="4"
+      [autoResize]="true"
+      formControlName="content"
+      placeholder="Écrivez ici votre commentaire"
+    ></textarea>
+  </div>
+  <button
+    pButton
+    pRipple
+    icon="pi pi-send text-2xl"
+    type="submit"
+    [disabled]="commentForm.invalid"
+    class="mx-2 p-button-rounded p-button-text"
+  ></button>
+</form>

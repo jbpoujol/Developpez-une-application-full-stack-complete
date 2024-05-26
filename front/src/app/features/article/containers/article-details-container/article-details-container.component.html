@@ -1,0 +1,28 @@
+<div class="mx-4">
+  <div class="grid nested-grid">
+    <div class="col-1">
+      <button
+        pButton
+        icon="pi pi-arrow-left text-2xl"
+        class="p-button-text p-button-plain mt-2"
+        routerLink="/articles"
+      ></button>
+    </div>
+    <div class="col-11">
+      <ng-container *ngIf="article">
+        <app-article-detail [article]="article"></app-article-detail>
+        <p-divider></p-divider>
+        <h3 class="text-md font-normal">Commentaires</h3>
+        <div
+          *ngFor="let comment of article.comments"
+          class="md:col-10 xl:col-8"
+        >
+          <app-article-comment [comment]="comment"></app-article-comment>
+        </div>
+        <app-comment-form
+          (submitComment)="handleCommentSubmit($event)"
+        ></app-comment-form>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -10,12 +10,21 @@ import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { ArticleCardComponent } from './components/article-card/article-card.component';
 import { CardModule } from 'primeng/card';
+import { ArticleDetailsContainerComponent } from './containers/article-details-container/article-details-container.component';
+import { ArticleDetailComponent } from './components/article-detail/article-detail.component';
+import { ArticleCommentComponent } from './components/article-comment/article-comment.component';
+import { CommentFormComponent } from './components/comment-form/comment-form.component';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   declarations: [
     ArticlesListComponent,
     AddArticleComponent,
     ArticleCardComponent,
+    ArticleDetailsContainerComponent,
+    ArticleDetailComponent,
+    ArticleCommentComponent,
+    CommentFormComponent,
   ],
   imports: [
     CommonModule,
@@ -26,7 +35,12 @@ import { CardModule } from 'primeng/card';
     InputTextareaModule,
     ButtonModule,
     CardModule,
+    DividerModule,
   ],
-  exports: [ArticlesListComponent, AddArticleComponent],
+  exports: [
+    ArticlesListComponent,
+    AddArticleComponent,
+    ArticleDetailsContainerComponent,
+  ],
 })
 export class ArticleFeatureModule {}

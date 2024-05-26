@@ -1,0 +1,13 @@
+<div class="grid">
+  <h2 class="col-12">{{ article.title }}</h2>
+  <div class="col-8">
+    <div class="grid">
+      <small class="col-4">{{ article.createdAt | date }}</small>
+      <small class="col-4">{{ article.authorName }}</small>
+      <small class="col-4">{{ article.themeName }}</small>
+    </div>
+  </div>
+  <div class="col-12">
+    <p class="mt-4">{{ article.content }}</p>
+  </div>
+</div>
