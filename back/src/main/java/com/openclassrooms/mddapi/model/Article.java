@@ -18,7 +18,7 @@ public class Article {
 
     @Column(columnDefinition = "TEXT")
     private String content;
-    
+
     private LocalDateTime createdAt;
 
     @ManyToOne
