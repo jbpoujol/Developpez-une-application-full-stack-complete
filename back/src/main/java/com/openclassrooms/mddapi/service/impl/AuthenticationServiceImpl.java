@@ -6,6 +6,7 @@ import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.excepton.CustomAlreadyExistsException;
 import com.openclassrooms.mddapi.excepton.CustomAuthenticationException;
 import com.openclassrooms.mddapi.excepton.CustomNotFoundException;
+import com.openclassrooms.mddapi.excepton.CustomValidationException;
 import com.openclassrooms.mddapi.model.DBUser;
 import com.openclassrooms.mddapi.model.LoginRequest;
 import com.openclassrooms.mddapi.model.RegistrationRequest;
@@ -26,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,11 +47,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
-    @Override
     public Map<String, String> registerUserAndGenerateToken(RegistrationRequest registrationRequest) {
         if (dbUserRepository.existsByEmail(registrationRequest.getEmail())) {
             throw new CustomAlreadyExistsException("Email already in use.");
         }
+
+        validatePassword(registrationRequest.getPassword());
 
         DBUser newUser = new DBUser();
         newUser.setName(registrationRequest.getName());
@@ -61,6 +64,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // Generate token for the new user
         String token = jwtService.generateTokenForUser(newUser);
         return Map.of("token", token);
+    }
+
+    private void validatePassword(String password) {
+        if (password.length() < 8) {
+            throw new CustomValidationException("Password must be at least 8 characters long.");
+        }
+
+        Pattern digitPattern = Pattern.compile("[0-9]");
+        Pattern lowerCasePattern = Pattern.compile("[a-z]");
+        Pattern upperCasePattern = Pattern.compile("[A-Z]");
+        Pattern specialCharPattern = Pattern.compile("[^a-zA-Z0-9]");
+
+        if (!digitPattern.matcher(password).find()) {
+            throw new CustomValidationException("Password must contain at least one digit.");
+        }
+        if (!lowerCasePattern.matcher(password).find()) {
+            throw new CustomValidationException("Password must contain at least one lowercase letter.");
+        }
+        if (!upperCasePattern.matcher(password).find()) {
+            throw new CustomValidationException("Password must contain at least one uppercase letter.");
+        }
+        if (!specialCharPattern.matcher(password).find()) {
+            throw new CustomValidationException("Password must contain at least one special character.");
+        }
     }
 
     @Override

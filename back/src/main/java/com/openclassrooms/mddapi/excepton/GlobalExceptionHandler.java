@@ -91,4 +91,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(CustomValidationException.class)
+    public ResponseEntity<?> handleCustomValidationException(CustomValidationException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("error", "Validation error");
+        body.put("details", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
 }
