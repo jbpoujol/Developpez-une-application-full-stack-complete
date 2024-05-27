@@ -3,55 +3,59 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { User } from '../models/User.model';
 import { LoginRequest } from '../models/LoginRequest.model';
 import { RegisterRequest } from '../models/RegisterRequest.model';
-import { UpdateProfileRequest } from '../models/UpdateProfileRequest.model';
+import { EnvironmentService } from '@core';
+import { User } from '../models/User.model';
+import { ProfileService } from '@profile';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
-
+  private loginPath = '/auth/login';
+  private registerPath = '/auth/register';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
-
   currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private environment: EnvironmentService,
+    private profileService: ProfileService
+  ) {}
 
   init() {
-    this.loadCurrentUser();
+    this.profileService.loadCurrentUser().subscribe((user) => {
+      this.currentUserSubject.next(user);
+    });
   }
 
   login(loginRequest: LoginRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, loginRequest).pipe(
-      tap((response) => {
-        this.setToken(response.token);
-        this.loadCurrentUser();
-      })
-    );
+    return this.http
+      .post<any>(`${this.environment.apiUrl}${this.loginPath}`, loginRequest)
+      .pipe(
+        tap((response) => {
+          this.setToken(response.token);
+          this.profileService.loadCurrentUser().subscribe((user) => {
+            this.currentUserSubject.next(user);
+          });
+        })
+      );
   }
 
   register(registerRequest: RegisterRequest): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, registerRequest).pipe(
-      tap((response) => {
-        this.setToken(response.token);
-        this.loadCurrentUser();
-      })
-    );
-  }
-
-  getCurrentUser(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/profile`);
-  }
-
-  updateProfile(updateProfileRequest: UpdateProfileRequest): Observable<any> {
     return this.http
-      .put<any>(`${this.apiUrl}/profile`, updateProfileRequest)
+      .post<any>(
+        `${this.environment.apiUrl}${this.registerPath}`,
+        registerRequest
+      )
       .pipe(
-        tap(() => {
-          this.loadCurrentUser();
+        tap((response) => {
+          this.setToken(response.token);
+          this.profileService.loadCurrentUser().subscribe((user) => {
+            this.currentUserSubject.next(user);
+          });
         })
       );
   }
@@ -72,14 +76,5 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
-  }
-
-  private loadCurrentUser(): void {
-    const token = this.getToken();
-    if (token) {
-      this.getCurrentUser().subscribe((user) =>
-        this.currentUserSubject.next(user)
-      );
-    }
   }
 }

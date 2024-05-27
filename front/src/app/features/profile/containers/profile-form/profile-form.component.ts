@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/User.model';
+import { ProfileService } from '../../services/profile.service';
+import { User, AuthService } from '@auth';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -17,7 +16,11 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 
   destroy$ = new Subject<boolean>();
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit(): void {
     this.profileForm = this.fb.group({
@@ -25,7 +28,8 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
     });
 
-    this.authService.currentUser$
+    this.profileService
+      .loadCurrentUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.currentUser = user;
@@ -40,7 +44,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 
   onSave(): void {
     if (this.profileForm.valid) {
-      this.authService
+      this.profileService
         .updateProfile(this.profileForm.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe({

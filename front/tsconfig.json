@@ -23,7 +23,10 @@
       "@environment": ["src/environments"],
       "@core": ["src/app/core"],
       "@shared": ["src/app/shared"],
-      "@auth": ["src/app/auth"]
+      "@auth": ["src/app/auth"],
+      "@profile": ["src/app/features/profile"],
+      "@theme": ["src/app/features/themes"],
+      "@article": ["src/app/features/article"]
     }
   },
   "angularCompilerOptions": {

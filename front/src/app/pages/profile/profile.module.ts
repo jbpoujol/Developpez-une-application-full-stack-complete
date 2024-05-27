@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthModule } from 'src/app/auth/auth.module';
 import { ThemesFeatureModule } from 'src/app/features/themes/themes-feature.module';
 import { DividerModule } from 'primeng/divider';
+import { ProfileFeatureModule } from '@profile';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     AuthModule,
     ThemesFeatureModule,
     DividerModule,
+    ProfileFeatureModule,
   ],
 })
 export class ProfileModule {}

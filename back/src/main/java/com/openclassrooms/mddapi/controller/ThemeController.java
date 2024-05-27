@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/themes")
+@RequestMapping("/api/v1/themes")
 public class ThemeController {
     private final ThemeService themeService;
 
