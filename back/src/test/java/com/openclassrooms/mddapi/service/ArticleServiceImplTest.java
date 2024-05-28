@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.service.impl;
+package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.ArticleDTO;
 import com.openclassrooms.mddapi.dto.CommentDTO;
@@ -11,6 +11,7 @@ import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.DBUserRepository;
 import com.openclassrooms.mddapi.repository.ThemeRepository;
 import com.openclassrooms.mddapi.service.AuthenticationService;
+import com.openclassrooms.mddapi.service.impl.ArticleServiceImpl;
 import com.openclassrooms.mddapi.util.DtoConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,7 @@ public class ArticleServiceImplTest {
     private DBUser mockUser;
     private Theme mockTheme;
     private Article mockArticle;
+    private Comment mockComment;
 
     @BeforeEach
     public void setUp() {
@@ -67,9 +69,16 @@ public class ArticleServiceImplTest {
         mockArticle.setId(1L);
         mockArticle.setTitle("Test Title");
         mockArticle.setContent("Test Content");
-        mockArticle.setTheme(mockTheme);
-        mockArticle.setAuthor(mockUser);
         mockArticle.setCreatedAt(LocalDateTime.now());
+        mockArticle.setAuthor(mockUser);
+        mockArticle.setTheme(mockTheme);
+
+        mockComment = new Comment();
+        mockComment.setId(1L);
+        mockComment.setContent("Test Comment");
+        mockComment.setCreatedAt(LocalDateTime.now());
+        mockComment.setAuthor(mockUser);
+        mockComment.setArticle(mockArticle);
     }
 
     @Test
@@ -98,9 +107,10 @@ public class ArticleServiceImplTest {
         when(themeRepository.findById(any(Long.class))).thenReturn(Optional.of(mockTheme));
 
         ArgumentCaptor<Article> articleCaptor = ArgumentCaptor.forClass(Article.class);
+
         when(articleRepository.save(articleCaptor.capture())).thenAnswer(invocation -> {
-            Article article = invocation.getArgument(0);
-            article.setId(1L); // simulate setting ID after saving
+            Article article = articleCaptor.getValue();
+            article.setId(1L);  // Simuler l'ID généré par la base de données
             return article;
         });
 
@@ -108,13 +118,13 @@ public class ArticleServiceImplTest {
         assertNotNull(articleDTO);
         assertEquals("New Title", articleDTO.getTitle());
 
+        verify(articleRepository).save(any(Article.class));
+
         Article savedArticle = articleCaptor.getValue();
         assertEquals("New Title", savedArticle.getTitle());
         assertEquals("New Content", savedArticle.getContent());
         assertEquals(mockTheme, savedArticle.getTheme());
         assertEquals(mockUser, savedArticle.getAuthor());
-
-        verify(articleRepository, times(1)).save(any(Article.class));
     }
 
     @Test
@@ -130,15 +140,18 @@ public class ArticleServiceImplTest {
     public void testAddComment() {
         when(authenticationService.getCurrentAuthenticatedUser()).thenReturn(mockUser);
         when(articleRepository.findById(any(Long.class))).thenReturn(Optional.of(mockArticle));
-        Comment mockComment = new Comment();
-        mockComment.setContent("Test Comment");
-        mockComment.setArticle(mockArticle);
-        mockComment.setAuthor(mockUser);
         when(commentRepository.save(any(Comment.class))).thenReturn(mockComment);
+
+        ArgumentCaptor<Comment> commentCaptor = ArgumentCaptor.forClass(Comment.class);
 
         CommentDTO commentDTO = articleService.addComment(1L, "Test Comment");
         assertNotNull(commentDTO);
         assertEquals("Test Comment", commentDTO.getContent());
-        verify(commentRepository, times(1)).save(any(Comment.class));
+
+        verify(commentRepository).save(commentCaptor.capture());
+        Comment savedComment = commentCaptor.getValue();
+        assertEquals("Test Comment", savedComment.getContent());
+        assertEquals(mockUser, savedComment.getAuthor());
+        assertEquals(mockArticle, savedComment.getArticle());
     }
 }

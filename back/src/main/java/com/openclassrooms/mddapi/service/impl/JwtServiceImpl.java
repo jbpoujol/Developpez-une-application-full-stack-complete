@@ -39,7 +39,7 @@ public class JwtServiceImpl implements JwtService {
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.DAYS))
                 .subject(email)
-                .claim("email", email)  // Add the email claim
+                .claim("email", email)
                 .build();
 
         JwtEncoderParameters params = JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS256).build(), claims);

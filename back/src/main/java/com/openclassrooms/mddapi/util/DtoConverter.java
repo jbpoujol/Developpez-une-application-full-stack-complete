@@ -9,6 +9,7 @@ import com.openclassrooms.mddapi.model.Comment;
 import com.openclassrooms.mddapi.model.DBUser;
 import com.openclassrooms.mddapi.model.Theme;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,20 +28,24 @@ public class DtoConverter {
     }
 
     public static ArticleDTO convertToArticleDTO(Article article) {
-        List<CommentDTO> comments = article.getComments().stream()
-                .map(DtoConverter::convertToCommentDTO)
-                .collect(Collectors.toList());
+        if (article == null) {
+            throw new IllegalArgumentException("Article cannot be null");
+        }
+
+        List<CommentDTO> comments = article.getComments() != null ?
+                article.getComments().stream()
+                        .map(DtoConverter::convertToCommentDTO)
+                        .collect(Collectors.toList()) : Collections.emptyList();
 
         return new ArticleDTO(
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),
                 article.getCreatedAt(),
-                article.getAuthor().getName(),
-                article.getTheme().getName(),
-                article.getTheme().getId(),
+                article.getAuthor() != null ? article.getAuthor().getName() : null,
+                article.getTheme() != null ? article.getTheme().getName() : null,
+                article.getTheme() != null ? article.getTheme().getId() : null,
                 comments
-
         );
     }
 
@@ -49,7 +54,7 @@ public class DtoConverter {
                 comment.getId(),
                 comment.getContent(),
                 comment.getCreatedAt(),
-                comment.getAuthor().getName()
+                comment.getAuthor() != null ? comment.getAuthor().getName() : null
         );
     }
 }
