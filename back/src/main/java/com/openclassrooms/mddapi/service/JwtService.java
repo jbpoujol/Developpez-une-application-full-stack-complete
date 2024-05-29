@@ -3,6 +3,11 @@ package com.openclassrooms.mddapi.service;
 import com.openclassrooms.mddapi.model.DBUser;
 import org.springframework.security.core.Authentication;
 
+/**
+ * Service interface for managing JWT tokens.
+ * <p>
+ * This interface provides methods for generating JWT tokens based on authentication details or user information.
+ */
 public interface JwtService {
 
     /**

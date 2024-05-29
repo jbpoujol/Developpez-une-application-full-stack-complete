@@ -1,12 +1,17 @@
 package com.openclassrooms.mddapi.service;
 
-
 import com.openclassrooms.mddapi.dto.UserDTO;
-import com.openclassrooms.mddapi.excepton.CustomNotFoundException;
+import com.openclassrooms.mddapi.exception.CustomNotFoundException;
 import com.openclassrooms.mddapi.model.DBUser;
 
 import java.util.Optional;
 
+/**
+ * Service interface for managing users.
+ * <p>
+ * This interface provides methods for finding users by their email or ID, and for retrieving user details
+ * in the form of a {@link UserDTO}.
+ */
 public interface DBUserService {
 
     /**
@@ -41,7 +46,4 @@ public interface DBUserService {
      * @throws CustomNotFoundException if no user with the provided ID can be found in the database. This exception is used to signal to the caller that the requested operation could not be completed due to missing data.
      */
     UserDTO findUserDTOById(Long id);
-
-
 }
-

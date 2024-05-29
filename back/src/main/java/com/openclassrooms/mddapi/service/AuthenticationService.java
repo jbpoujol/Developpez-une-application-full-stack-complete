@@ -1,11 +1,10 @@
 package com.openclassrooms.mddapi.service;
 
-
 import com.openclassrooms.mddapi.dto.ThemeDTO;
 import com.openclassrooms.mddapi.dto.UpdateProfileRequestDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
-import com.openclassrooms.mddapi.excepton.CustomAlreadyExistsException;
-import com.openclassrooms.mddapi.excepton.CustomAuthenticationException;
+import com.openclassrooms.mddapi.exception.CustomAlreadyExistsException;
+import com.openclassrooms.mddapi.exception.CustomAuthenticationException;
 import com.openclassrooms.mddapi.model.DBUser;
 import com.openclassrooms.mddapi.model.LoginRequest;
 import com.openclassrooms.mddapi.model.RegistrationRequest;
@@ -13,6 +12,11 @@ import com.openclassrooms.mddapi.model.RegistrationRequest;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service interface for managing authentication and user profiles.
+ * <p>
+ * This interface provides methods for user registration, authentication, and profile management.
+ */
 public interface AuthenticationService {
 
     /**
@@ -51,6 +55,11 @@ public interface AuthenticationService {
      */
     Map<String, String> authenticateAndGenerateToken(LoginRequest loginRequest);
 
+    /**
+     * Retrieves the details of the currently authenticated user.
+     *
+     * @return A {@link UserDTO} containing the current user's details.
+     */
     UserDTO getCurrentUserDetails();
 
     /**
@@ -76,9 +85,25 @@ public interface AuthenticationService {
      */
     String getAuthenticatedUsername();
 
+    /**
+     * Updates the profile of the currently authenticated user.
+     *
+     * @param updateRequestDTO the update request containing the new profile details.
+     * @return A {@link UserDTO} containing the updated user's details.
+     */
     public UserDTO updateUserProfile(UpdateProfileRequestDTO updateRequestDTO);
 
+    /**
+     * Retrieves the currently authenticated user entity.
+     *
+     * @return The {@link DBUser} entity representing the currently authenticated user.
+     */
     DBUser getCurrentAuthenticatedUser();
 
+    /**
+     * Retrieves the themes that the currently authenticated user is subscribed to.
+     *
+     * @return A list of {@link ThemeDTO} objects representing the user's subscribed themes.
+     */
     List<ThemeDTO> getCurrentUserThemes();
 }

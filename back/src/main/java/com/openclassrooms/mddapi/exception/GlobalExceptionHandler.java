@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.excepton;
+package com.openclassrooms.mddapi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Global exception handler to manage application-wide exceptions.
+ * <p>
+ * This class provides centralized exception handling across all @RequestMapping methods.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -73,6 +78,23 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles custom validation exceptions.
+     * <p>
+     * This method responds to validation exceptions indicating that the provided data did not pass validation checks,
+     * with an error response detailing the validation issues.
+     *
+     * @param ex the caught CustomValidationException
+     * @return a ResponseEntity with error details and a BAD_REQUEST status
+     */
+    @ExceptionHandler(CustomValidationException.class)
+    public ResponseEntity<?> handleCustomValidationException(CustomValidationException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("error", "Validation error");
+        body.put("details", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
      * Handles all other exceptions not specifically addressed by other @ExceptionHandler methods.
      * <p>
      * This generic method catches all other exceptions, providing a general error response
@@ -90,13 +112,4 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    @ExceptionHandler(CustomValidationException.class)
-    public ResponseEntity<?> handleCustomValidationException(CustomValidationException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("error", "Validation error");
-        body.put("details", ex.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }
-
 }
