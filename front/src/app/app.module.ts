@@ -9,6 +9,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { LayoutModule } from './layout/layout.module';
 import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -20,6 +22,7 @@ import { CommonModule } from '@angular/common';
     HttpClientModule,
     ButtonModule,
     LayoutModule,
+    ToastModule,
   ],
   providers: [
     {
@@ -27,6 +30,7 @@ import { CommonModule } from '@angular/common';
       useClass: AuthInterceptor,
       multi: true,
     },
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })

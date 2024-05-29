@@ -1,6 +1,15 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+/**
+ * PasswordValidator provides custom validators for password strength.
+ */
 export class PasswordValidator {
+  /**
+   * Validator that checks if a password is strong.
+   * A strong password must contain at least one number, one uppercase letter,
+   * one lowercase letter, one special character, and be at least 8 characters long.
+   * @returns A ValidatorFn that returns a ValidationErrors object if the validation fails, otherwise null
+   */
   static strongPassword(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
