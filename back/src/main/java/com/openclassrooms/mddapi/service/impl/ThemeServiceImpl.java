@@ -39,9 +39,14 @@ public class ThemeServiceImpl implements ThemeService {
         Theme theme = themeRepository.findById(themeId)
                 .orElseThrow(() -> new CustomNotFoundException("Theme not found"));
 
+        if (currentUser.getSubscribedThemes().contains(theme)) {
+            throw new IllegalArgumentException("User is already subscribed to this theme");
+        }
+
         currentUser.getSubscribedThemes().add(theme);
         userRepository.save(currentUser);
     }
+
 
     @Override
     public void unsubscribeFromTheme(Long themeId) throws CustomNotFoundException {
