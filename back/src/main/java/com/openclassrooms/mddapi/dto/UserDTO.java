@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,16 +39,20 @@ public class UserDTO {
      */
     private LocalDateTime updated_at;
 
+    /**
+     * The list of themes the user is subscribed to.
+     */
     private List<ThemeDTO> subscribedThemes;
 
     /**
      * Constructs a new UserDTO with specified details.
      *
-     * @param id         The unique identifier of the user.
-     * @param name       The name of the user.
-     * @param email      The email address of the user.
-     * @param created_at The date of account creation.
-     * @param updated_at The date of the last update to the account.
+     * @param id               The unique identifier of the user.
+     * @param name             The name of the user.
+     * @param email            The email address of the user.
+     * @param created_at       The date of account creation.
+     * @param updated_at       The date of the last update to the account.
+     * @param subscribedThemes The list of themes the user is subscribed to.
      */
     public UserDTO(Long id, String name, String email, LocalDateTime created_at, LocalDateTime updated_at, List<ThemeDTO> subscribedThemes) {
         this.id = id;

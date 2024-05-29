@@ -26,13 +26,29 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+/**
+ * Configuration class for setting up Spring Security.
+ * <p>
+ * This class configures security settings, including JWT encoding/decoding,
+ * CORS configuration, password encoding, and authentication management.
+ */
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig  {
+public class SpringSecurityConfig {
 
     @Value("${app.jwt.secret}")
     private String jwtKey;
 
+    /**
+     * Configures the security filter chain.
+     * <p>
+     * This method sets up the HTTP security, including CSRF protection, session management,
+     * authorization rules, CORS configuration, and OAuth2 resource server with JWT support.
+     *
+     * @param http the HttpSecurity object to configure
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
@@ -45,26 +61,64 @@ public class SpringSecurityConfig  {
                 .build();
     }
 
+    /**
+     * Provides a BCryptPasswordEncoder bean.
+     * <p>
+     * This bean is used for encoding passwords.
+     *
+     * @return a BCryptPasswordEncoder instance
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Provides a JwtDecoder bean.
+     * <p>
+     * This bean is used for decoding JWT tokens.
+     *
+     * @return a JwtDecoder instance
+     */
     @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withSecretKey(new SecretKeySpec(this.jwtKey.getBytes(), "HmacSHA256")).build();
     }
 
+    /**
+     * Provides a JwtEncoder bean.
+     * <p>
+     * This bean is used for encoding JWT tokens.
+     *
+     * @return a JwtEncoder instance
+     */
     @Bean
     public JwtEncoder jwtEncoder() {
         return new NimbusJwtEncoder(new ImmutableSecret<>(this.jwtKey.getBytes()));
     }
 
+    /**
+     * Provides an AuthenticationManager bean.
+     * <p>
+     * This bean is used for managing authentication.
+     *
+     * @param http the HttpSecurity object to configure
+     * @return an AuthenticationManager instance
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class).build();
     }
 
+    /**
+     * Configures CORS settings.
+     * <p>
+     * This method sets up the CORS configuration, including allowed origins, methods,
+     * headers, credentials, and maximum age.
+     *
+     * @return a CorsConfigurationSource instance
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

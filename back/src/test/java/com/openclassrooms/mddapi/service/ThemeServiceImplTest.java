@@ -1,12 +1,11 @@
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.ThemeDTO;
-import com.openclassrooms.mddapi.excepton.CustomNotFoundException;
+import com.openclassrooms.mddapi.exception.CustomNotFoundException;
 import com.openclassrooms.mddapi.model.DBUser;
 import com.openclassrooms.mddapi.model.Theme;
 import com.openclassrooms.mddapi.repository.ThemeRepository;
 import com.openclassrooms.mddapi.repository.DBUserRepository;
-import com.openclassrooms.mddapi.service.AuthenticationService;
 import com.openclassrooms.mddapi.service.impl.ThemeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

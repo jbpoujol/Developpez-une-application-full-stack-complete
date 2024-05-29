@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.service.impl;
 
 import com.openclassrooms.mddapi.dto.ThemeDTO;
-import com.openclassrooms.mddapi.excepton.CustomNotFoundException;
+import com.openclassrooms.mddapi.exception.CustomNotFoundException;
 import com.openclassrooms.mddapi.model.DBUser;
 import com.openclassrooms.mddapi.model.Theme;
 import com.openclassrooms.mddapi.repository.ThemeRepository;
