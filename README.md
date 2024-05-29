@@ -151,7 +151,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [PrimeIcons](https://www.primefaces.org/primeicons/)
 - [RxJS](https://rxjs.dev/)
 
-# Back - MDD API
+## Back - MDD API
 
 MDD API is a RESTful web service designed to manage articles, comments, and user subscriptions to various themes. It provides endpoints for user authentication, managing articles and comments, subscribing to themes, and more.
 
