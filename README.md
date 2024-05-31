@@ -215,8 +215,13 @@ MDD API is a RESTful web service designed to manage articles, comments, and user
   - `POST /api/v1/themes/{id}/unsubscribe`: Unsubscribe from a theme.
 
 - **User Profile**:
+
   - `GET /api/v1/profile`: Get current user details.
   - `PUT /api/v1/profile`: Update user profile.
+
+## Accéder à la documentation de l'API
+
+La documentation interactive de l'API est disponible via Swagger UI. Vous pouvez y accéder en lançant l'application et en ouvrant votre navigateur à l'adresse suivante : http://localhost:8080/swagger-ui.html
 
 ## Contributing
 
